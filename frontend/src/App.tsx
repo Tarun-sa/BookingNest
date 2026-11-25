@@ -5,9 +5,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/search" element={<h1>Search</h1>} />
-        <Route path="*" element={<Layout />} />
+        <Route path="/" element={<Layout>Home page</Layout>} />
+        <Route path="/search" element={<Layout>Search</Layout>} />
+        <Route path="*" element={<Layout>Not Found</Layout>} />
       </Routes>
     </>
   );
