@@ -8,6 +8,7 @@ const router = express.Router();
 // /api/users/register
 router.post(
   "/register",
+
   [
     body("email").isEmail().withMessage("Please provide a valid email"),
     body("password")
@@ -16,6 +17,7 @@ router.post(
     body("firstName").isString().withMessage("First name should be a string"),
     body("lastName").isString().withMessage("Last name should be a string"),
   ],
+
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -27,6 +29,7 @@ router.post(
       if (user) {
         return res.status(400).json({ message: "User already exists" });
       }
+
       user = new User(req.body);
       await user.save();
 
@@ -37,11 +40,13 @@ router.post(
           expiresIn: "1d",
         },
       );
+
       res.cookie("auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 24 * 60 * 60 * 1000, //1 day
       });
+
       return res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
       console.error(error);
