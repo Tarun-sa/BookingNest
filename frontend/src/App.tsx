@@ -1,12 +1,23 @@
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
 import Layout from "./layouts/Layout";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <>
+      <Toaster position="top-right" richColors duration={2000} />
       <Routes>
         <Route path="/" element={<Layout>Home page</Layout>} />
         <Route path="/search" element={<Layout>Search</Layout>} />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <Register />
+            </Layout>
+          }
+        />
         <Route path="*" element={<Layout>Not Found</Layout>} />
       </Routes>
     </>
