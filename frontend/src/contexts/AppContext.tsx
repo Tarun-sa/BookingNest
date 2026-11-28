@@ -1,13 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { createContext, useContext } from "react";
-import { toast } from "sonner";
-
-type ToastMessage = {
-  message: string;
-  type: "SUCCESS" | "ERROR";
-};
+import * as ApiClient from "../api/auth";
 
 type AppContextType = {
-  showToast: (toastMessage: ToastMessage) => void;
+  isLoggedIn: boolean;
 };
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -17,15 +13,17 @@ export const AppContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const showToast = (toastMessage: ToastMessage) => {
-    if (toastMessage.type === "SUCCESS") {
-      toast.success(toastMessage.message);
-    } else {
-      toast.error(toastMessage.message);
-    }
-  };
+  let isLoggedIn = false;
+
+  const { isSuccess } = useQuery({
+    queryKey: ["ValidateToken"],
+    queryFn: ApiClient.validateToken,
+    retry: 0,
+  });
+  isLoggedIn = isSuccess;
+
   return (
-    <AppContext.Provider value={{ showToast }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ isLoggedIn }}>{children}</AppContext.Provider>
   );
 };
 
