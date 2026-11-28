@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import * as ApiClient from "../api-client";
+import * as ApiClient from "../api/auth";
 import { useAppContext } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
@@ -21,13 +21,13 @@ const Register = () => {
   } = useForm<RegisterFromData>();
 
   const { showToast } = useAppContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: ApiClient.registerApi,
     onSuccess: () => {
       showToast({ message: "Registration Successfull", type: "SUCCESS" });
-      navigate("/")
+      navigate("/");
     },
     onError: (error) => {
       showToast({ message: error.message, type: "ERROR" });
